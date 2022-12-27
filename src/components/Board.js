@@ -1,11 +1,20 @@
 import { useState } from "react";
 
 const Board = (props) => {
+  console.log("props");
+  console.log(props);
   const [boardData, setBoardData] = useState({
     boardData: initBoardData(props.height, props.width, props.mines),
   });
 
-  const initBoardData = (height, width, mines) => {};
+  const [gameStatus, setGameStatus] = useState(false);
+  const [mineCount, setMineCount] = useState(props.mines);
+
+  const initBoardData = (height, width, mines) => {
+    return {};
+  };
+
+  const renderBoard = (data) => {};
 
   return (
     <div className="board">
@@ -18,9 +27,5 @@ const Board = (props) => {
     </div>
   );
 };
-// Type checking With PropTypes
-Board.propTypes = {
-  height: PropTypes.number,
-  width: PropTypes.number,
-  mines: PropTypes.number,
-};
+
+export default Board;

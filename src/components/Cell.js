@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Cell = (props) => {
+const Cell = (props) => {
   let className =
     "cell" +
     (props.value.isRevealed ? "" : " hidden") +
@@ -31,3 +31,5 @@ export const Cell = (props) => {
     </div>
   );
 };
+
+export default Cell;
