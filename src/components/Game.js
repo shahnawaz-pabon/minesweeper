@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Board from "./Board";
 
-const Game = () => {
+export const Game = () => {
   const [height, setHeight] = useState(8);
   const [width, setWidth] = useState(8);
   const [mines, setMines] = useState(10);
@@ -12,5 +12,3 @@ const Game = () => {
     </div>
   );
 };
-
-export default Game;

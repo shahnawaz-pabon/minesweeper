@@ -1,14 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import { Cell } from "./Cell";
 const Board = (props) => {
   console.log("props");
   console.log(props);
-  const [boardData, setBoardData] = useState({
-    boardData: initBoardData(props.height, props.width, props.mines),
-  });
-
-  const [gameStatus, setGameStatus] = useState(false);
-  const [mineCount, setMineCount] = useState(props.mines);
 
   const initializeArray = (height, width) => {
     let data = [];
@@ -46,28 +41,6 @@ const Board = (props) => {
       }
     }
     return data;
-  };
-
-  const getNeighbours = (data, height, width) => {
-    let updatedData = data;
-    for (let i = 0; i < height; i++) {
-      for (let j = 0; j < width; j++) {
-        if (data[i][j].isMine !== true) {
-          let mine = 0;
-          const area = traverseBoard(data[i][j].x, data[i][j].y, data);
-          area.map((value) => {
-            if (value.isMine) {
-              mine++;
-            }
-          });
-          if (mine === 0) {
-            updatedData[i][j].isEmpty = true;
-          }
-          updatedData[i][j].neighbour = mine;
-        }
-      }
-    }
-    return updatedData;
   };
 
   // looks for neighbouring cells and returns them
@@ -108,6 +81,28 @@ const Board = (props) => {
     return el;
   };
 
+  const getNeighbours = (data, height, width) => {
+    let updatedData = data;
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        if (data[i][j].isMine !== true) {
+          let mine = 0;
+          const area = traverseBoard(data[i][j].x, data[i][j].y, data);
+          area.map((value) => {
+            if (value.isMine) {
+              mine++;
+            }
+          });
+          if (mine === 0) {
+            updatedData[i][j].isEmpty = true;
+          }
+          updatedData[i][j].neighbour = mine;
+        }
+      }
+    }
+    return updatedData;
+  };
+
   const initBoardData = (height, width, mines) => {
     let data = initializeArray(height, width);
     data = setMines(data, height, width, mines);
@@ -116,7 +111,84 @@ const Board = (props) => {
     return data;
   };
 
-  const renderBoard = (data) => {};
+  const [boardData, setBoardData] = useState(
+    initBoardData(props.height, props.width, props.mines)
+  );
+
+  const [gameStatus, setGameStatus] = useState(false);
+  const [mineCount, setMineCount] = useState(props.mines);
+  const cellRef = useRef(0);
+
+  useEffect(() => {
+    // 👇️ this is reference to input element
+    console.log("cellRef.current");
+    console.log(cellRef.current);
+    cellRef.current.focus();
+
+    // 👇️ incrementing ref value does not cause re-render
+    // refCounter.current += 1;
+    // console.log(refCounter.current);
+  }, []);
+
+  const performCellClick = (x, y) => {
+    console.log("Cell clicked");
+  };
+
+  const performContextMenu = (event, x, y) => {
+    console.log("Right button clicked on the cell");
+  };
+
+  const renderBoard = (data) => {
+    // return <h1>Hello World</h1>;
+
+    return (
+      <>
+        {data.map((datarow) => {
+          return (
+            <div>
+              {datarow.map((dataitem) => {
+                console.log(dataitem.x, datarow.length);
+                return (
+                  // <h1>Hello</h1>
+                  <div key={dataitem.x * datarow.length + dataitem.y}>
+                    {/* Hello */}
+                    {/* <h1>Hello</h1> */}
+                    <Cell
+                      ref={cellRef}
+                      onClick={() => performCellClick(dataitem.x, dataitem.y)}
+                      cMenu={(e) =>
+                        performContextMenu(e, dataitem.x, dataitem.y)
+                      }
+                      value={dataitem}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </>
+    );
+    // data.map((datarow) => {
+    //   // console.log(datarow);
+    //   datarow.map((dataitem) => {
+    //     return (
+    //       <div key={dataitem.x * datarow.length + dataitem.y}>
+    //         <Cell
+    //           onClick={() => performCellClick(dataitem.x, dataitem.y)}
+    //           cMenu={(e) => performContextMenu(e, dataitem.x, dataitem.y)}
+    //           value={dataitem}
+    //         />
+    //         {/* {datarow[datarow.length - 1] === dataitem ? (
+    //           <div className="clear" />
+    //         ) : (
+    //           ""
+    //         )} */}
+    //       </div>
+    //     );
+    //   });
+    // });
+  };
 
   return (
     <div className="board">
@@ -125,7 +197,7 @@ const Board = (props) => {
         <br />
         <span className="info">{gameStatus}</span>
       </div>
-      {/* {renderBoard(boardData)} */}
+      {renderBoard(boardData)}
     </div>
   );
 };
