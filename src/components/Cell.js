@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 
 export const Cell = (props) => {
+  const cellRef = useRef("cell");
+
   let className =
     "cell" +
     (props.value.isRevealed ? "" : " hidden") +
@@ -22,7 +24,7 @@ export const Cell = (props) => {
 
   return (
     <div
-      ref="cell"
+      ref={cellRef}
       onClick={props.onClick}
       className={className}
       onContextMenu={props.cMenu}

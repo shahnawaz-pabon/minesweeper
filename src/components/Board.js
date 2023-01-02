@@ -117,18 +117,6 @@ const Board = (props) => {
 
   const [gameStatus, setGameStatus] = useState(false);
   const [mineCount, setMineCount] = useState(props.mines);
-  const cellRef = useRef(0);
-
-  useEffect(() => {
-    // 👇️ this is reference to input element
-    console.log("cellRef.current");
-    console.log(cellRef.current);
-    cellRef.current.focus();
-
-    // 👇️ incrementing ref value does not cause re-render
-    // refCounter.current += 1;
-    // console.log(refCounter.current);
-  }, []);
 
   const performCellClick = (x, y) => {
     console.log("Cell clicked");
@@ -139,55 +127,34 @@ const Board = (props) => {
   };
 
   const renderBoard = (data) => {
-    // return <h1>Hello World</h1>;
-
     return (
-      <>
+      <div>
         {data.map((datarow) => {
           return (
-            <div>
+            <>
               {datarow.map((dataitem) => {
-                console.log(dataitem.x, datarow.length);
                 return (
-                  // <h1>Hello</h1>
                   <div key={dataitem.x * datarow.length + dataitem.y}>
-                    {/* Hello */}
-                    {/* <h1>Hello</h1> */}
                     <Cell
-                      ref={cellRef}
                       onClick={() => performCellClick(dataitem.x, dataitem.y)}
                       cMenu={(e) =>
                         performContextMenu(e, dataitem.x, dataitem.y)
                       }
                       value={dataitem}
                     />
+                    {datarow[datarow.length - 1] === dataitem ? (
+                      <div className="clear" />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 );
               })}
-            </div>
+            </>
           );
         })}
-      </>
+      </div>
     );
-    // data.map((datarow) => {
-    //   // console.log(datarow);
-    //   datarow.map((dataitem) => {
-    //     return (
-    //       <div key={dataitem.x * datarow.length + dataitem.y}>
-    //         <Cell
-    //           onClick={() => performCellClick(dataitem.x, dataitem.y)}
-    //           cMenu={(e) => performContextMenu(e, dataitem.x, dataitem.y)}
-    //           value={dataitem}
-    //         />
-    //         {/* {datarow[datarow.length - 1] === dataitem ? (
-    //           <div className="clear" />
-    //         ) : (
-    //           ""
-    //         )} */}
-    //       </div>
-    //     );
-    //   });
-    // });
   };
 
   return (
