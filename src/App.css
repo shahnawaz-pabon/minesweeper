@@ -43,15 +43,23 @@
 }
 
 .game {
-  max-width: 400px;
+  max-width: 376px;
   margin: 0 auto;
   padding: 20px;
   background: #1abc9c;
   margin-top: 15vh;
 }
 
+.board {
+}
+
 .game-info {
   min-height: 50px;
+  margin-bottom: 10px;
+  background: transparent;
+  padding: 7px;
+  text-align: center;
+  color: #fff;
 }
 
 .cell {
