@@ -118,8 +118,90 @@ const Board = (props) => {
   const [gameStatus, setGameStatus] = useState(false);
   const [mineCount, setMineCount] = useState(props.mines);
 
+  const revealBoard = () => {
+    let updatedData = boardData;
+    updatedData.map((datarow) => {
+      datarow.map((dataitem) => {
+        dataitem.isRevealed = true;
+      });
+    });
+
+    setBoardData(updatedData);
+  };
+
+  const revealEmpty = (x, y, data) => {
+    let area = traverseBoard(x, y, data);
+    area.map((value) => {
+      if (!value.isRevealed && (value.isEmpty || !value.isMine)) {
+        data[value.x][value.y].isRevealed = true;
+        if (value.isEmpty) {
+          revealEmpty(value.x, value.y, data);
+        }
+      }
+    });
+    return data;
+  };
+
+  // get Flags
+  const getFlags = (data) => {
+    let mineArray = [];
+
+    data.map((datarow) => {
+      datarow.map((dataitem) => {
+        if (dataitem.isFlagged) {
+          mineArray.push(dataitem);
+        }
+      });
+    });
+
+    return mineArray;
+  };
+
+  // get Hidden cells
+  const getHidden = (data) => {
+    let mineArray = [];
+
+    data.map((datarow) => {
+      datarow.map((dataitem) => {
+        if (!dataitem.isRevealed) {
+          mineArray.push(dataitem);
+        }
+      });
+    });
+
+    return mineArray;
+  };
+
   const performCellClick = (x, y) => {
     console.log("Cell clicked");
+    let win = false;
+
+    // check if revealed. return if true.
+    if (boardData[x][y].isRevealed) return null;
+
+    // check if mine. game over if true
+    if (boardData[x][y].isMine) {
+      revealBoard();
+      alert("game over");
+    }
+
+    let updatedData = boardData;
+    updatedData[x][y].isFlagged = false;
+    updatedData[x][y].isRevealed = true;
+
+    if (updatedData[x][y].isEmpty) {
+      updatedData = revealEmpty(x, y, updatedData);
+    }
+
+    if (getHidden(updatedData).length === props.mines) {
+      win = true;
+      revealBoard();
+      alert("You Win");
+    }
+
+    setBoardData(updatedData);
+    setMineCount(props.mines - getFlags(updatedData).length);
+    setGameStatus(win);
   };
 
   const performContextMenu = (event, x, y) => {
