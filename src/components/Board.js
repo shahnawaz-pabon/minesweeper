@@ -244,7 +244,7 @@ const Board = (props) => {
       <div className="game-info">
         <span className="info">mines: {mineCount}</span>
         <br />
-        <span className="info">{gameStatus}</span>
+        <span className="info">{gameStatus ? "You Win" : ""}</span>
       </div>
       {renderBoard(boardData)}
     </div>
