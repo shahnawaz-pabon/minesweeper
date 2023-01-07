@@ -171,7 +171,6 @@ const Board = (props) => {
   };
 
   const performCellClick = (x, y) => {
-    // setStatus(!status);
     // console.log("Cell clicked");
     let win = false;
 
