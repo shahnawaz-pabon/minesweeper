@@ -18,11 +18,11 @@ export const Cell = (props) => {
       case 2:
         return "#0984E3";
       case 3:
-        return "#D63031";
+        return "#D35400";
       case 4:
         return "#223DAA";
       case 5:
-        return "#D35400";
+        return "#D63031";
       case 6:
         return "#8E44AD";
       case 7:
