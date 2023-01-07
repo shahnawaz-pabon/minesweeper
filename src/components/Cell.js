@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 
 export const Cell = (props) => {
   const cellRef = useRef("cell");
-  console.log("cell props");
-  console.log(props);
+  // console.log("cell props");
+  // console.log(props);
 
   let className =
     "cell" +

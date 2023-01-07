@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { Cell } from "./Cell";
 const Board = (props) => {
-  console.log("props");
-  console.log(props);
-
   const initializeArray = (height, width) => {
     let data = [];
     for (let i = 0; i < height; i++) {
@@ -119,7 +116,8 @@ const Board = (props) => {
   const [mineCount, setMineCount] = useState(props.mines);
 
   const revealBoard = () => {
-    let updatedData = boardData;
+    console.log("Board revealed...");
+    let updatedData = [...boardData];
     updatedData.map((datarow) => {
       datarow.map((dataitem) => {
         dataitem.isRevealed = true;
@@ -173,7 +171,8 @@ const Board = (props) => {
   };
 
   const performCellClick = (x, y) => {
-    console.log("Cell clicked");
+    // setStatus(!status);
+    // console.log("Cell clicked");
     let win = false;
 
     // check if revealed. return if true.
@@ -185,7 +184,7 @@ const Board = (props) => {
       alert("game over");
     }
 
-    let updatedData = boardData;
+    let updatedData = [...boardData];
     updatedData[x][y].isFlagged = false;
     updatedData[x][y].isRevealed = true;
 
@@ -206,6 +205,7 @@ const Board = (props) => {
 
   const performContextMenu = (event, x, y) => {
     console.log("Right button clicked on the cell");
+    event.preventDefault();
   };
 
   const renderBoard = (data) => {
