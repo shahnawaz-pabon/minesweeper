@@ -11,6 +11,29 @@ export const Cell = (props) => {
     (props.value.isMine ? " is-mine" : "") +
     (props.value.isFlagged ? " is-flag" : "");
 
+  const getColor = (number) => {
+    switch (number) {
+      case 1:
+        return "#00B894";
+      case 2:
+        return "#0984E3";
+      case 3:
+        return "#D63031";
+      case 4:
+        return "#223DAA";
+      case 5:
+        return "#D35400";
+      case 6:
+        return "#8E44AD";
+      case 7:
+        return "#904323";
+      case 8:
+        return "#FC427B";
+      default:
+        return "black";
+    }
+  };
+
   const getValue = () => {
     if (!props.value.isRevealed) {
       return props.value.isFlagged ? "🇧🇩" : null;
@@ -30,6 +53,7 @@ export const Cell = (props) => {
       onClick={props.onClick}
       className={className}
       onContextMenu={props.cMenu}
+      style={{ color: getColor(props.value.neighbour) }}
     >
       {getValue()}
     </div>
