@@ -26,6 +26,11 @@
   font-size: 20px;
   letter-spacing: 0.095em;
   font-family: 'ubuntu';
+  display: flex;
+}
+
+.timer {
+  margin-left: auto;
 }
 
 .cell {
