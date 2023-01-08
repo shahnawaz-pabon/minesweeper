@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Cell } from "./Cell";
+
+import Timer from "./Timer";
+
 const Board = (props) => {
+  const [checkGameIsStarted, setCheckGameIsStarted] = useState(false);
+
   const initializeArray = (height, width) => {
     let data = [];
     for (let i = 0; i < height; i++) {
@@ -217,7 +222,13 @@ const Board = (props) => {
                 return (
                   <div key={dataitem.x * datarow.length + dataitem.y}>
                     <Cell
-                      onClick={() => performCellClick(dataitem.x, dataitem.y)}
+                      onClick={() => {
+                        if (!checkGameIsStarted) {
+                          setCheckGameIsStarted(true);
+                        }
+
+                        performCellClick(dataitem.x, dataitem.y);
+                      }}
                       cMenu={(e) =>
                         performContextMenu(e, dataitem.x, dataitem.y)
                       }
@@ -242,6 +253,7 @@ const Board = (props) => {
     <div className="board">
       <div className="game-info">
         <span className="info">mines: {mineCount}</span>
+        {checkGameIsStarted && <Timer />}
         <br />
         <span className="info">{gameStatus ? "You Win" : ""}</span>
       </div>
