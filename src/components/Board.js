@@ -253,7 +253,11 @@ const Board = (props) => {
     <div className="board">
       <div className="game-info">
         <span className="info">mines: {mineCount}</span>
-        {checkGameIsStarted && <Timer />}
+        {checkGameIsStarted ? (
+          <Timer />
+        ) : (
+          <div className="timer">⏰ {(0).toString().padStart(3, "0")}</div>
+        )}
         <br />
         <span className="info">{gameStatus ? "You Win" : ""}</span>
       </div>
