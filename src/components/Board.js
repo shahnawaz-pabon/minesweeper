@@ -6,6 +6,7 @@ import Timer from "./Timer";
 
 const Board = (props) => {
   const [checkGameIsStarted, setCheckGameIsStarted] = useState(false);
+  const [stopTimer, setStopTimer] = useState(false);
 
   const initializeArray = (height, width) => {
     let data = [];
@@ -185,6 +186,7 @@ const Board = (props) => {
     // check if mine. game over if true
     if (boardData[x][y].isMine) {
       revealBoard();
+      setStopTimer(true);
       alert("game over");
     }
 
@@ -199,6 +201,7 @@ const Board = (props) => {
     if (getHidden(updatedData).length === props.mines) {
       win = true;
       revealBoard();
+      setStopTimer(true);
       alert("You Win");
     }
 
@@ -254,7 +257,7 @@ const Board = (props) => {
       <div className="game-info">
         <span className="info">mines: {mineCount}</span>
         {checkGameIsStarted ? (
-          <Timer />
+          <Timer status={stopTimer} />
         ) : (
           <div className="timer">⏰ {(0).toString().padStart(3, "0")}</div>
         )}
