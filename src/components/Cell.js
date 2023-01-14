@@ -53,7 +53,13 @@ export const Cell = (props) => {
       onClick={props.onClick}
       className={className}
       onContextMenu={props.cMenu}
-      style={{ color: getColor(props.value.neighbour) }}
+      style={{
+        color: getColor(props.value.neighbour),
+        backgroundColor:
+          props.mineCellColor && props.value.isMine && props.value.isRevealed
+            ? "wheat"
+            : "",
+      }}
     >
       {getValue()}
     </div>

@@ -7,6 +7,7 @@ import Timer from "./Timer";
 const Board = (props) => {
   const [checkGameIsStarted, setCheckGameIsStarted] = useState(false);
   const [stopTimer, setStopTimer] = useState(false);
+  const [mineCellColor, setMineCellColor] = useState(false);
 
   const initializeArray = (height, width) => {
     let data = [];
@@ -187,6 +188,7 @@ const Board = (props) => {
     if (boardData[x][y].isMine) {
       revealBoard();
       setStopTimer(true);
+      setMineCellColor(true);
       alert("game over");
     }
 
@@ -236,6 +238,7 @@ const Board = (props) => {
                         performContextMenu(e, dataitem.x, dataitem.y)
                       }
                       value={dataitem}
+                      mineCellColor={mineCellColor}
                     />
                     {datarow[datarow.length - 1] === dataitem ? (
                       <div className="clear" />
