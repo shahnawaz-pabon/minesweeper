@@ -14,9 +14,15 @@
   border-radius: 5px;
 }
 
+.board-title {
+  font-family: 'ubuntu';
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+}
+
 .game-info {
   min-height: 50px;
-  margin-bottom: 10px;
   background: transparent;
   padding: 7px;
   text-align: center;

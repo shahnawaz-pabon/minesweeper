@@ -119,7 +119,7 @@ const Board = (props) => {
     initBoardData(props.height, props.width, props.mines)
   );
 
-  const [gameStatus, setGameStatus] = useState(false);
+  const [gameStatus, setGameStatus] = useState(null);
   const [mineCount, setMineCount] = useState(props.mines);
 
   const revealBoard = () => {
@@ -178,8 +178,8 @@ const Board = (props) => {
   };
 
   const performCellClick = (x, y) => {
-    // console.log("Cell clicked");
-    let win = false;
+    // console.log("Cell clicked", gameStatus);
+    let win = null;
 
     // check if revealed. return if true.
     if (boardData[x][y].isRevealed) return null;
@@ -189,6 +189,7 @@ const Board = (props) => {
       revealBoard();
       setStopTimer(true);
       setMineCellColor(true);
+      setGameStatus(false); // set to false if lost the game
       alert("game over");
     }
 
@@ -209,7 +210,7 @@ const Board = (props) => {
 
     setBoardData(updatedData);
     setMineCount(props.mines - getFlags(updatedData).length);
-    setGameStatus(win);
+    setGameStatus(win); // set to true if win the game
   };
 
   const performContextMenu = (event, x, y) => {
@@ -257,6 +258,15 @@ const Board = (props) => {
 
   return (
     <div className="board">
+      <div style={{ textAlign: "center", marginBottom: "15px" }}>
+        <span className="board-title">
+          {gameStatus == null
+            ? "Game in Progress"
+            : gameStatus == true
+            ? "You Win"
+            : "Sorry, you've lost"}
+        </span>
+      </div>
       <div className="game-info">
         <span className="info">mines: {mineCount}</span>
         {checkGameIsStarted ? (
@@ -264,8 +274,6 @@ const Board = (props) => {
         ) : (
           <div className="timer">⏰ {(0).toString().padStart(3, "0")}</div>
         )}
-        <br />
-        <span className="info">{gameStatus ? "You Win" : ""}</span>
       </div>
       {renderBoard(boardData)}
     </div>
