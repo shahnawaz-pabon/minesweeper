@@ -8,6 +8,13 @@ const Board = (props) => {
   const [checkGameIsStarted, setCheckGameIsStarted] = useState(false);
   const [stopTimer, setStopTimer] = useState(false);
   const [mineCellColor, setMineCellColor] = useState(false);
+  const [gameStatus, setGameStatus] = useState(null);
+  const [mineCount, setMineCount] = useState(props.mines);
+
+  useEffect(() => {
+    console.log("gameStatus");
+    console.log(gameStatus);
+  }, [gameStatus]);
 
   const initializeArray = (height, width) => {
     let data = [];
@@ -119,9 +126,6 @@ const Board = (props) => {
     initBoardData(props.height, props.width, props.mines)
   );
 
-  const [gameStatus, setGameStatus] = useState(null);
-  const [mineCount, setMineCount] = useState(props.mines);
-
   const revealBoard = () => {
     console.log("Board revealed...");
     let updatedData = [...boardData];
@@ -189,7 +193,7 @@ const Board = (props) => {
       revealBoard();
       setStopTimer(true);
       setMineCellColor(true);
-      setGameStatus(false); // set to false if lost the game
+      win = false;
       alert("game over");
     }
 
